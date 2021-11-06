@@ -6,6 +6,7 @@ class graph {
         int **adj;
         int *visited;
         int n,e;
+        static int findPathVar;
 
         graph(int vert, int edges) {
             e = edges;
@@ -77,7 +78,50 @@ class graph {
             delete[] adj;
             delete[] visited;
         }
+
+        void hasPathDFS(int &ans, int start, int end) {
+            visited[start] = 1;
+            if(start == end) {
+                ans = 1;
+                return;
+            }
+
+            for(int i=0; i<n; i++) {
+                if(start == i) continue;
+
+                if(adj[start][i] == 1 && !visited[i]) {
+                    hasPathDFS(ans, i, end);
+                    if(ans == 1) {
+                        return;
+                    }
+                } 
+            }
+        }
+
+        void findPathDFS(vector<int> &ans, int start, int end) {
+            visited[start] = 1;
+            if(start == end) {
+                ans.push_back(end);
+                findPathVar = 1;
+                visited[end] = 1;
+                return;
+            }
+
+            for(int i=0; i<n; i++) {
+                if(start == i) continue;
+
+                if(adj[start][i] == 1 && !visited[i]) {
+                    findPathDFS(ans, i, end);
+                    if(findPathVar == 1) {
+                        ans.push_back(start);
+                        return;
+                    }
+                }
+            }
+        }
 };
+
+int graph :: findPathVar = -1;
 
 void printDFS(graph *g, int sz) {
     for(int i=0; i<sz; i++) {
@@ -95,6 +139,14 @@ void printBFS(graph *g, int sz) {
     }
 }
 
+// 0 1
+// 1 2
+// 2 3
+// 3 4
+// 4 0
+// 5 6
+// 4 2
+
 int main() {
 
 	int n = 7, e = 6;
@@ -108,7 +160,29 @@ int main() {
 
     // printDFS(&g, n);
 
-    printBFS(&g, n);
+    // printBFS(&g, n);
+
+    // int ans = -1;
+    int start, end;
+    cin>>start>>end;
+    
+    // g.hasPathDFS(ans, start, end);
+    
+    // if(ans == 1) {
+    //     cout<<"YES"<<endl;
+    // } else {
+    //     cout<<"NO"<<endl;
+    // }
+    vector<int> ans;
+    g.findPathDFS(ans, start, end);
+    if(ans.size() == 1 && ans[0] == end) {
+        cout<<"start and end are same!!"<<"\n";
+    } else {
+        for(int i=0; i<ans.size(); i++) {
+            cout<<ans[i]<<" ";
+        }
+        cout<<"\n";
+    }
 
 	return 0;
 }
