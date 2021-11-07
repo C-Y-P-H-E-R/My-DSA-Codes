@@ -119,6 +119,42 @@ class graph {
                 }
             }
         }
+
+        void isConnected(int s) {
+            visited[s] = 1;
+            for(int i=0; i<n; i++) {
+                if(s == i) continue;
+
+                if(adj[s][i] == 1 && !visited[i]) {
+                    isConnected(i);
+                }
+            }
+        }
+
+        bool cycleDetectionUtil(int s, int parent) {
+            visited[s] = 1;
+            for(int i=0; i<n; i++) {
+                if(s == i) continue;
+
+                if(adj[s][i] == 1) {
+                    if(visited[i] == 0) {
+                        if(cycleDetectionUtil(i, s)) return true;
+                    } else if(i != parent) return true;
+                }
+            }
+            return false;
+        }
+
+        bool cycleDetection() {
+            for(int i=0; i<n; i++) {
+                if(!visited[i]) {
+                    if(cycleDetectionUtil(i, -1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 };
 
 int graph :: findPathVar = -1;
@@ -149,7 +185,7 @@ void printBFS(graph *g, int sz) {
 
 int main() {
 
-	int n = 7, e = 6;
+	int n = 11, e = 6;
     // cin>>n>>e;
     graph g(n,e);
 
@@ -163,9 +199,10 @@ int main() {
     // printBFS(&g, n);
 
     // int ans = -1;
-    int start, end;
-    cin>>start>>end;
+    // int start, end;
+    // cin>>start>>end;
     
+    // ------ HAS-PATH (WITH DFS) --------- 
     // g.hasPathDFS(ans, start, end);
     
     // if(ans == 1) {
@@ -173,16 +210,38 @@ int main() {
     // } else {
     //     cout<<"NO"<<endl;
     // }
-    vector<int> ans;
-    g.findPathDFS(ans, start, end);
-    if(ans.size() == 1 && ans[0] == end) {
-        cout<<"start and end are same!!"<<"\n";
-    } else {
-        for(int i=0; i<ans.size(); i++) {
-            cout<<ans[i]<<" ";
-        }
-        cout<<"\n";
-    }
+
+
+    // ------ FIND-PATH (WITH DFS) -------
+    // vector<int> ans;
+    // g.findPathDFS(ans, start, end);
+    // if(ans.size() == 1 && ans[0] == end) {
+    //     cout<<"start and end are same!!"<<"\n";
+    // } else {
+    //     for(int i=0; i<ans.size(); i++) {
+    //         cout<<ans[i]<<" ";
+    //     }
+    //     cout<<"\n";
+    // }
+
+    // ------ ISCONNECTED (WITH DFS) ------
+    // int s;
+    // cin>>s;
+
+    // g.isConnected(s);
+    // int res = 0;
+    // for(int i=0; i<n; i++) {
+    //     if(g.visited[i] == 1) res++;
+    // }
+
+    // if(res == n) cout<<"Connected"<<"\n";
+    // else cout<<"Not Connected"<<"\n";
+
+    // ------ finding cycles in graph (DFS) ----
+
+    // bool ans = g.cycleDetection(); 
+    // cout<<ans<<" ";   
 
 	return 0;
 }
+
