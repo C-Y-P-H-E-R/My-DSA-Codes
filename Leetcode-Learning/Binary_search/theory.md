@@ -15,8 +15,8 @@ if the collection is unordered, we can always sort it first before applying Bina
 
 ## 3 main sections of binary search: ##
 
-***Pre-processing  - Sort if collection is unsorted.***
-***Binary Search - Using a loop or recursion to divide search space in half after each comparison.***
-***Post-processing - Determine viable candidates in the remaining space.***
+..* Pre-processing  - Sort if collection is unsorted.
+..* Binary Search - Using a loop or recursion to divide search space in half after each comparison.
+..* Post-processing - Determine viable candidates in the remaining space.
 
 
